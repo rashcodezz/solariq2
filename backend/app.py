@@ -15,7 +15,10 @@ logger = logging.getLogger(__name__)
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, origins=[
+        "http://localhost:5173",
+        "https://rococo-conkies-0ea6dd.netlify.app/"
+    ])
     @app.route("/health")
     def health():
         return jsonify({"status": "ok"})

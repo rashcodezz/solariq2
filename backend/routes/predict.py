@@ -2,13 +2,17 @@ from flask import Blueprint, request, jsonify, send_file
 from services.weather import fetch_weather
 from io import BytesIO
 from services.solar import is_model_loaded, validate_inputs, predict_solar
-from services.pdf_report import build_pdf,_build_table,_build_recommendation
+from services.pdf_report import build_pdf
 predict_bp = Blueprint("predict", __name__)
 
 @predict_bp.route("/api/predict", methods=["POST"])
 def predict():
     if not is_model_loaded():
         return jsonify({"error": "Model not loaded on server"}), 500
+
+@predict_bp.route("/api/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"}), 200
 
     data = request.get_json() or {}
 
